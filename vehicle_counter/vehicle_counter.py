@@ -2,7 +2,8 @@
 """
 Created on Sat May 20 22:19:19 2017
 
-@author: jeff
+Thanks to Dan Mašek who created this script on the stack overflow question:
+https://stackoverflow.com/questions/36254452/counting-cars-opencv-python-issue
 """
 
 import logging
