@@ -145,8 +145,8 @@ class VehicleCounter(object):
 
         # Optionally draw the vehicles on an image
         if output_image is not None:
-            for vehicle in self.vehicles:
-                vehicle.draw(output_image)
+            # for vehicle in self.vehicles:
+            #     vehicle.draw(output_image)
 
             cv2.putText(output_image, ("%02d" % self.vehicle_count), (142, 10)
                 , cv2.FONT_HERSHEY_PLAIN, 0.7, (127, 255, 255), 1)

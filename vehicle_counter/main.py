@@ -15,12 +15,12 @@ import sys
 import cv2
 # import numpy as np
 #import sys
-sys.path.append("/home/jeff/grive/vehicle_counter")
+sys.path.append("/home/jefehern/Desktop/JOBS/car_counting/vehicle_counter/")
 #from scraper import *
 from vehicle_counter import VehicleCounter
 
 # ============================================================================
-os.chdir("/home/jeff/grive/vehicle_counter")
+os.chdir("/home/jefehern/Desktop/JOBS/car_counting/vehicle_counter/")
 IMAGE_DIR = "images"
 IMAGE_FILENAME_FORMAT = IMAGE_DIR + "/frame_%04d.png"
 
@@ -34,7 +34,7 @@ else:
 # Time to wait between frames, 0=forever
 WAIT_TIME = 1 # 250 # ms
 
-LOG_TO_FILE = True
+LOG_TO_FILE = False
 
 # Colours for drawing on processed frames    
 DIVIDER_COLOUR = (255, 255, 0)
@@ -147,8 +147,8 @@ def process_frame(frame_number, frame, bg_subtractor, car_counter):
     fg_mask = bg_subtractor.apply(frame, None, 0.01)
     fg_mask = filter_mask(fg_mask)
 
-    save_frame(IMAGE_DIR + "/mask_%04d.png"
-        , frame_number, fg_mask, "foreground mask for frame #%d")
+    #save_frame(IMAGE_DIR + "/mask_%04d.png"
+        #, frame_number, fg_mask, "foreground mask for frame #%d")
 
     matches = detect_vehicles(fg_mask)
 
@@ -213,20 +213,21 @@ def main():
             car_counter = VehicleCounter(frame.shape[:2], frame.shape[0] / 2)
 
         # Archive raw frames from video to disk for later inspection/testing
-        if CAPTURE_FROM_VIDEO:
-            save_frame(IMAGE_FILENAME_FORMAT
-                , frame_number, frame, "source frame #%d")
+        # if CAPTURE_FROM_VIDEO:
+        #     save_frame(IMAGE_FILENAME_FORMAT
+        #         , frame_number, frame, "source frame #%d")
 
         log.debug("Processing frame #%d...", frame_number)
         processed = process_frame(frame_number, frame, bg_subtractor, car_counter)
 
-        save_frame(IMAGE_DIR + "/processed_%04d.png"
-            , frame_number, processed, "processed frame #%d")
+        #save_frame(IMAGE_DIR + "/processed_%04d.png"
+        #    , frame_number, processed, "processed frame #%d")
 
         # cv2.imshow('Source Image', frame)
         cv2.imshow('Processed Image', processed)
 
         log.debug("Frame #%d processed.", frame_number)
+        log.debug("%d cars counted.", car_counter.vehicle_count)
 
         c = cv2.waitKey(WAIT_TIME)
         if c == 27:
@@ -243,8 +244,8 @@ def main():
 if __name__ == "__main__":
     log = init_logging()
 
-    if not os.path.exists(IMAGE_DIR):
-        log.debug("Creating image directory `%s`...", IMAGE_DIR)
-        os.makedirs(IMAGE_DIR)
+    # if not os.path.exists(IMAGE_DIR):
+    #     log.debug("Creating image directory `%s`...", IMAGE_DIR)
+    #     os.makedirs(IMAGE_DIR)
 
     main()
